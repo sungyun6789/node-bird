@@ -5,7 +5,7 @@ import { Menu } from "antd";
 const AppLayout = ({ children }) => {
   return (
     <div>
-      <Menu>
+      <Menu mode="horizontal">
         <Menu.Item>
           <Link href="/">
             <a>노드버드</a>
