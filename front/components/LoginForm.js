@@ -5,7 +5,7 @@ import styled from "styled-components";
 import PropTypes from "prop-types";
 import useInput from "../hooks/useInput";
 import { useDispatch } from "react-redux";
-import { loginAction } from "../reducers";
+import { loginAction } from "../reducers/user";
 
 const ButtonWrapper = styled.div`
   margin-top: 10px;
@@ -39,6 +39,7 @@ const LoginForm = () => {
           name="user-password"
           value={password}
           onChange={onChangePassword}
+          type="password"
           required
         />
       </div>
@@ -57,7 +58,3 @@ const LoginForm = () => {
 };
 
 export default LoginForm;
-
-LoginForm.propTypes = {
-  setIsLoggedIn: PropTypes.func.isRequired,
-};

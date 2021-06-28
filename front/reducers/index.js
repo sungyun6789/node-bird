@@ -1,15 +1,11 @@
 import { HYDRATE } from "next-redux-wrapper";
+import user from "./user";
+import post from "./post";
+import { combineReducers } from "redux";
 
 const initialState = {
-  user: {
-    isLoggedIn: false,
-    user: null,
-    signUpData: {},
-    loginData: {},
-  },
-  post: {
-    mainPosts: {},
-  },
+  user: {},
+  post: {},
 };
 
 export const loginAction = (data) => {
@@ -31,36 +27,17 @@ const changeNickname = {
 };
 
 // reducer = (이전상태, 액션) => 다음상태
-const rootReducer = (state = initialState, action) => {
-  switch (action.type) {
-    case HYDRATE:
-      return {
-        ...state,
-        ...action.payload,
-      };
-    case "LOG_IN":
-      return {
-        ...state,
-        user: {
-          ...state.user,
-          isLoggedIn: true,
-          user: action.data,
-        },
-      };
-    case "LOG_OUT": {
-      return {
-        ...state,
-        user: {
-          ...state.user,
-          isLoggedIn: false,
-          user: null,
-        },
-      };
+const rootReducer = combineReducers({
+  index: (state = {}, action) => {
+    switch (action.type) {
+      case HYDRATE:
+        return { ...state, ...action.payload };
+      default:
+        return state;
     }
-    default: {
-      return state;
-    }
-  }
-};
+  },
+  user,
+  post,
+});
 
 export default rootReducer;
