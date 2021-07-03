@@ -9,13 +9,13 @@ export const initialState = {
       content: '첫 번째 게시글 #해시태그 #익스프레스',
       Images: [
         {
-          src: 'https://www.naver.com',
+          src: 'https://news.hmgjournal.com/images_n/contents/ioniq5-media-reaction1.jpg',
         },
         {
-          src: 'https://www.google.com',
+          src: 'https://www.motorgraph.com/news/photo/201905/22360_72349_4848.jpg',
         },
         {
-          src: 'https://www.map.kakao.com',
+          src: 'http://image.newdaily.co.kr/site/data/img/2021/01/13/2021011300033_0.jpg',
         },
       ],
       Comments: [
