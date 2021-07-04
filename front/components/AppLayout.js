@@ -1,13 +1,29 @@
-import PropTypes from "prop-types";
-import Link from "next/link";
-import { Menu, Input, Row, Col } from "antd";
-import UserProfile from "./UserProfile";
-import LoginForm from "./LoginForm";
-import styled from "styled-components";
-import { useSelector } from "react-redux";
+import React from 'react';
+import PropTypes from 'prop-types';
+import Link from 'next/link';
+import { Menu, Input, Row, Col } from 'antd';
+import UserProfile from './UserProfile';
+import LoginForm from './LoginForm';
+import styled, { createGlobalStyle } from 'styled-components';
+import { useSelector } from 'react-redux';
 
 const SearchInput = styled(Input.Search)`
   vertical-align: middle;
+`;
+
+const Global = createGlobalStyle`
+  .ant-row {
+    margin-right: 0 !important;
+    margin-left: 0 !important;
+  }
+
+  .ant-col:first-child {
+    padding-left: 0 !important;
+  }
+
+  .ant-col::last-child {
+    padding-right: 0 !important;
+  }
 `;
 
 const AppLayout = ({ children }) => {
@@ -15,6 +31,7 @@ const AppLayout = ({ children }) => {
 
   return (
     <div>
+      <Global />
       <Menu mode="horizontal">
         <Menu.Item>
           <Link href="/">
@@ -46,7 +63,7 @@ const AppLayout = ({ children }) => {
           <a
             href="https://github.com/sungyun6789"
             target="_blank"
-            rel="noerferrer noopener"
+            rel="noerferrer noopener noreferrer"
           >
             Made by SungYun
           </a>

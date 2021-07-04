@@ -12,7 +12,7 @@ export const initialState = {
           src: 'https://news.hmgjournal.com/images_n/contents/ioniq5-media-reaction1.jpg',
         },
         {
-          src: 'https://www.motorgraph.com/news/photo/201905/22360_72349_4848.jpg',
+          src: 'https://image.newsis.com/2021/01/13/NISI20210113_0000672749_web.jpg?rnd=20210113094408',
         },
         {
           src: 'http://image.newdaily.co.kr/site/data/img/2021/01/13/2021011300033_0.jpg',

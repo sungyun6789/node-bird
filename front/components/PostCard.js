@@ -82,8 +82,6 @@ const PostCard = ({ post }) => {
           />
         </div>
       )}
-      {/* <Content />
-        <Buttons></Buttons> */}
     </div>
   );
 };
