@@ -12,9 +12,9 @@ import {
   SIGN_UP_FAILURE,
 } from '../reducers/user';
 
-// function logInAPI(data) {
-//   return axios.post('/api/login', data);
-// }
+function logInAPI(data) {
+  return axios.post('/api/login', data);
+}
 
 function* logIn(action) {
   try {
