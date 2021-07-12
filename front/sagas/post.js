@@ -13,13 +13,14 @@ import {
 //   return axios.post('/api/post', data);
 // }
 
-function* addPost() {
+function* addPost(action) {
   try {
     // effect 앞에 yield가 붙음
     // const result = yield call(addPostAPI);
     yield delay(1000);
     yield put({
       type: ADD_POST_SUCCESS,
+      data: action.data,
     });
   } catch (err) {
     yield put({
@@ -39,6 +40,7 @@ function* addComment(action) {
     yield delay(1000);
     yield put({
       type: ADD_COMMENT_SUCCESS,
+      data: action.data,
     });
   } catch (err) {
     yield put({
