@@ -1,4 +1,4 @@
-import { all, fork, takeEvery, put, call, delay } from 'redux-saga/effects';
+import { all, fork, put, delay, takeLatest } from 'redux-saga/effects';
 import axios from 'axios';
 import {
   ADD_POST_REQUEST,
@@ -7,20 +7,33 @@ import {
   ADD_COMMENT_REQUEST,
   ADD_COMMENT_SUCCESS,
   ADD_COMMENT_FAILURE,
+  REMOVE_POST_REQUEST,
+  REMOVE_POST_SUCCESS,
+  REMOVE_POST_FAILURE,
 } from '../reducers/post';
+import { ADD_POST_TO_ME, REMOVE_POST_OF_ME } from '../reducers/user';
+import shortid from 'shortid';
 
-// function addPostAPI(data) {
-//   return axios.post('/api/post', data);
-// }
+function addPostAPI(data) {
+  return axios.post('/api/post', data);
+}
 
 function* addPost(action) {
   try {
     // effect 앞에 yield가 붙음
     // const result = yield call(addPostAPI);
     yield delay(1000);
+    const id = shortid.generate();
     yield put({
       type: ADD_POST_SUCCESS,
-      data: action.data,
+      data: {
+        id,
+        content: action.data,
+      },
+    });
+    yield put({
+      type: ADD_POST_TO_ME,
+      data: id,
     });
   } catch (err) {
     yield put({
@@ -30,9 +43,34 @@ function* addPost(action) {
   }
 }
 
-// function addCommentAPI(data) {
-//   return axios.post(`/api/post/${id}/comment`, data);
-// }
+function removePostAPI(data) {
+  return axios.post('/api/post', data);
+}
+
+function* removePost(action) {
+  try {
+    // const result = yield call(addPostAPI);
+    yield delay(1000);
+    yield put({
+      type: REMOVE_POST_SUCCESS,
+      data: action.data,
+    });
+    yield put({
+      type: REMOVE_POST_OF_ME,
+      data: action.data,
+    });
+  } catch (err) {
+    console.log(err);
+    yield put({
+      type: REMOVE_POST_FAILURE,
+      data: err.response.data,
+    });
+  }
+}
+
+function addCommentAPI(data) {
+  return axios.post(`/api/post/${id}/comment`, data);
+}
 
 function* addComment(action) {
   try {
@@ -51,13 +89,17 @@ function* addComment(action) {
 }
 
 function* watchAddPost() {
-  yield takeEvery(ADD_POST_REQUEST, addPost);
+  yield takeLatest(ADD_POST_REQUEST, addPost);
+}
+
+function* watchRemovePost() {
+  yield takeLatest(REMOVE_POST_REQUEST, removePost);
 }
 
 function* watchAddCommentPost() {
-  yield takeEvery(ADD_COMMENT_REQUEST, addComment);
+  yield takeLatest(ADD_COMMENT_REQUEST, addComment);
 }
 
 export default function* postSaga() {
-  yield all([fork(watchAddPost), fork(watchAddCommentPost)]);
+  yield all([fork(watchAddPost), fork(watchAddCommentPost), fork(watchRemovePost)]);
 }

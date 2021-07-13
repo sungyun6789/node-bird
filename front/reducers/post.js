@@ -11,24 +11,31 @@ export const initialState = {
       content: '첫 번째 게시글 #해시태그 #익스프레스',
       Images: [
         {
+          id: shortId.generate(),
           src: 'https://news.hmgjournal.com/images_n/contents/ioniq5-media-reaction1.jpg',
         },
         {
+          id: shortId.generate(),
           src: 'https://image.newsis.com/2021/01/13/NISI20210113_0000672749_web.jpg?rnd=20210113094408',
         },
         {
+          id: shortId.generate(),
           src: 'http://image.newdaily.co.kr/site/data/img/2021/01/13/2021011300033_0.jpg',
         },
       ],
       Comments: [
         {
+          id: shortId.generate(),
           User: {
+            id: shortId.generate(),
             nickname: 'hero',
           },
           content: '안녕하세요',
         },
         {
+          id: shortId.generate(),
           User: {
+            id: shortId.generate(),
             nickname: 'nero',
           },
           content: '안녕못해요',
@@ -40,6 +47,9 @@ export const initialState = {
   addPostLoading: false,
   addPostDone: false,
   addPostError: null,
+  removePostLoading: false,
+  removePostDone: false,
+  removePostError: null,
   addCommentLoading: false,
   addCommentDone: false,
   addCommentError: null,
@@ -53,6 +63,10 @@ export const ADD_COMMENT_REQUEST = 'ADD_COMMENT_REQUEST';
 export const ADD_COMMENT_SUCCESS = 'ADD_COMMENT_SUCCESS';
 export const ADD_COMMENT_FAILURE = 'ADD_COMMENT_FAILURE';
 
+export const REMOVE_POST_REQUEST = 'REMOVE_POST_REQUEST';
+export const REMOVE_POST_SUCCESS = 'REMOVE_POST_SUCCESS';
+export const REMOVE_POST_FAILURE = 'REMOVE_POST_FAILURE';
+
 export const addPost = (data) => ({
   type: ADD_POST_REQUEST,
   data,
@@ -64,8 +78,8 @@ export const addComment = (data) => ({
 });
 
 const dummyPost = (data) => ({
-  id: shortId.generate(),
-  content: data,
+  id: data.id,
+  content: data.content,
   User: {
     id: 1,
     nickname: '성윤',
@@ -100,6 +114,26 @@ const reducer = (state = initialState, action) => {
         addPostDone: true,
       };
     case ADD_POST_FAILURE:
+      return {
+        ...state,
+        addPostLoading: false,
+        addPostError: action.error,
+      };
+    case REMOVE_POST_REQUEST:
+      return {
+        ...state,
+        addPostLoading: true,
+        addPostDone: false,
+        addPostError: null,
+      };
+    case REMOVE_POST_SUCCESS:
+      return {
+        ...state,
+        mainPosts: state.mainPosts.filter((v) => v.id !== action.data),
+        addPostLoading: false,
+        addPostDone: true,
+      };
+    case REMOVE_POST_FAILURE:
       return {
         ...state,
         addPostLoading: false,
