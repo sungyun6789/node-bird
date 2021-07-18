@@ -1,12 +1,41 @@
-const http = require("http");
-const server = http.createServer((req, res) => {
-  console.log(req.url, req.method);
-  res.write("<h1>Hello node1</h1>");
-  res.write("Hello node2");
-  res.write("Hello node3");
-  res.write("Hello node4");
-  res.end("Hello node");
+const express = require("express");
+
+const app = express();
+
+/* 
+get - 가져오다
+post - 생성하다 
+put - 전체 수정 
+delete - 제거 
+patch - 부분 수정 
+options - 찔러보기 (보낼 수 있는지)
+head - 헤더만 가져오기 (header/body)
+*/
+
+app.get("/", (req, res) => {
+  res.send("hello express");
 });
-server.listen(3065, () => {
+
+app.get("/api", (req, res) => {
+  res.send("hello api");
+});
+
+app.get("/api/posts", (req, res) => {
+  res.json([
+    { id: 1, content: "hello1" },
+    { id: 2, content: "hello2" },
+    { id: 3, content: "hello3" },
+  ]);
+});
+
+app.post("/api/post", (req, res) => {
+  res.json({ id: 1, content: "success" });
+});
+
+app.delete("/api/post", (req, res) => {
+  res.send("delete");
+});
+
+app.listen(3065, () => {
   console.log("서버 실행 중");
 });
