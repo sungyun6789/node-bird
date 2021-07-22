@@ -1,6 +1,6 @@
 module.exports = (sequlize, DataTypes) => {
   const Image = sequlize.define(
-    "Image",
+    'Image',
     {
       src: {
         type: DataTypes.STRING(200),
@@ -8,11 +8,13 @@ module.exports = (sequlize, DataTypes) => {
       },
     },
     {
-      charset: "utf8",
-      collate: "utf8_general_ci", // 한글 저장
-    }
+      charset: 'utf8',
+      collate: 'utf8_general_ci', // 한글 저장
+    },
   );
-  Image.associate = (db) => {};
+  Image.associate = (db) => {
+    db.Image.hasMany(db.Post); // 포스트가 이미지를 여러개 가짐 1 : N
+  };
 
   return Image;
 };

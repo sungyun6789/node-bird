@@ -1,6 +1,6 @@
 module.exports = (sequlize, DataTypes) => {
   const User = sequlize.define(
-    "User", // MYSQL에는 users 테이블 생성
+    'User', // MYSQL에는 users 테이블 생성
     {
       // id가 기본적으로 들어있음(mysql)
       email: {
@@ -18,11 +18,25 @@ module.exports = (sequlize, DataTypes) => {
       },
     },
     {
-      charset: "utf8",
-      collate: "utf8_general_ci", // 한글 저장
-    }
+      charset: 'utf8',
+      collate: 'utf8_general_ci', // 한글 저장
+    },
   );
-  User.associate = (db) => {};
+  User.associate = (db) => {
+    db.User.hashMany(db.Post);
+    db.User.belongsTo(db.Comment);
+    db.Post.belongsToMany(db.Post, { through: 'Like', as: 'Liked' });
+    db.Post.belongsToMany(db.Post, {
+      through: 'Follow',
+      as: 'Followers',
+      foreignKey: 'FollowingId',
+    });
+    db.Post.belongsToMany(db.Post, {
+      through: 'Follow',
+      as: 'Followings',
+      foreignKey: 'FollowerId',
+    });
+  };
 
   return User;
 };

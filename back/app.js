@@ -1,5 +1,5 @@
-const express = require("express");
-const postRouter = require("./routes/post");
+const express = require('express');
+const postRouter = require('./routes/post');
 
 const app = express();
 
@@ -13,24 +13,24 @@ options - 찔러보기 (보낼 수 있는지)
 head - 헤더만 가져오기 (header/body)
 */
 
-app.get("/", (req, res) => {
-  res.send("hello express");
+app.get('/', (req, res) => {
+  res.send('hello express');
 });
 
-app.get("/", (req, res) => {
-  res.send("hello api");
+app.get('/', (req, res) => {
+  res.send('hello api');
 });
 
-app.get("/posts", (req, res) => {
+app.get('/posts', (req, res) => {
   res.json([
-    { id: 1, content: "hello1" },
-    { id: 2, content: "hello2" },
-    { id: 3, content: "hello3" },
+    { id: 1, content: 'hello1' },
+    { id: 2, content: 'hello2' },
+    { id: 3, content: 'hello3' },
   ]);
 });
 
-app.use("/post", postRouter);
+app.use('/post', postRouter);
 
 app.listen(3065, () => {
-  console.log("서버 실행 중");
+  console.log('서버 실행 중');
 });
