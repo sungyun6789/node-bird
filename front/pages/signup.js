@@ -45,11 +45,7 @@ const Signup = () => {
     console.log(email, nickname, password);
     dispatch({
       type: SIGN_UP_REQUEST,
-      data: {
-        email,
-        password,
-        nickname,
-      },
+      data: { email, password, nickname },
     });
   }, [email, password, passwordCheck, term]);
 

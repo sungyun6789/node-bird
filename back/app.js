@@ -1,5 +1,6 @@
 const express = require('express');
 const postRouter = require('./routes/post');
+const userRouter = require('./routes/user');
 const db = require('./models');
 const app = express();
 db.sequelize
@@ -7,15 +8,8 @@ db.sequelize
   .then(() => console.log('db 연결 성공'))
   .catch(console.error);
 
-/* 
-get - 가져오다
-post - 생성하다 
-put - 전체 수정 
-delete - 제거 
-patch - 부분 수정 
-options - 찔러보기 (보낼 수 있는지)
-head - 헤더만 가져오기 (header/body)
-*/
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 app.get('/', (req, res) => {
   res.send('hello express');
@@ -34,7 +28,18 @@ app.get('/posts', (req, res) => {
 });
 
 app.use('/post', postRouter);
+app.use('/user', userRouter);
 
 app.listen(3065, () => {
   console.log('서버 실행 중');
 });
+
+/* 
+get - 가져오다
+post - 생성하다 
+put - 전체 수정 
+delete - 제거 
+patch - 부분 수정 
+options - 찔러보기 (보낼 수 있는지)
+head - 헤더만 가져오기 (header/body)
+*/
