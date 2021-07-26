@@ -14,7 +14,7 @@ module.exports = (sequlize, DataTypes) => {
   );
 
   Image.associate = (db) => {
-    db.Image.hasMany(db.Post); // 포스트가 이미지를 여러개 가짐 1 : N
+    db.Image.belongsTo(db.Post); // 포스트가 이미지를 여러개 가짐 1 : N
   };
 
   return Image;
