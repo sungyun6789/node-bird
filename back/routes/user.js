@@ -17,7 +17,7 @@ router.post('/', async (req, res, next) => {
     await User.create({
       email: req.body.email,
       nickname: req.body.nickname,
-      password: req.body.password,
+      password: hashedPassword,
     });
     res.status(200).send('ok');
   } catch (error) {
