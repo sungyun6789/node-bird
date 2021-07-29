@@ -6,6 +6,7 @@ import UserProfile from './UserProfile';
 import LoginForm from './LoginForm';
 import styled, { createGlobalStyle } from 'styled-components';
 import { useSelector } from 'react-redux';
+import shortId from 'shortid';
 
 const SearchInput = styled(Input.Search)`
   vertical-align: middle;
@@ -33,20 +34,20 @@ const AppLayout = ({ children }) => {
     <div>
       <Global />
       <Menu mode="horizontal">
-        <Menu.Item>
+        <Menu.Item key={shortId.generate()}>
           <Link href="/">
             <a>노드버드</a>
           </Link>
         </Menu.Item>
-        <Menu.Item>
+        <Menu.Item key={shortId.generate()}>
           <Link href="/profile">
             <a>프로필</a>
           </Link>
         </Menu.Item>
-        <Menu.Item>
+        <Menu.Item key={shortId.generate()}>
           <SearchInput enterButton />
         </Menu.Item>
-        <Menu.Item>
+        <Menu.Item key={shortId.generate()}>
           <Link href="/signup">
             <a>회원가입</a>
           </Link>
