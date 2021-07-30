@@ -20,7 +20,7 @@ router.post('/login', (req, res, next) => {
         console.error(loginErr);
         return next(loginErr);
       }
-      return res.json(user);
+      return res.status(200).json(user);
     });
   })(req, res, next);
 });
@@ -41,11 +41,18 @@ router.post('/', async (req, res, next) => {
       nickname: req.body.nickname,
       password: hashedPassword,
     });
-    res.status(200).send('ok');
+    res.status(201).send('ok');
   } catch (error) {
     console.log(error);
     next(error); // status 500
   }
+});
+
+// 로그아웃은 쿠키와 세션을 지우면 끝나는 작업, 로그인에 비해 상당히 간단한 편
+router.post('/user/logout', (req, res) => {
+  req.logout();
+  req.session.destroy();
+  res.send('ok');
 });
 
 module.exports = router;
