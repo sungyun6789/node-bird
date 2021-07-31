@@ -38,22 +38,18 @@ function* logIn(action) {
   }
 }
 
-function logOutAPI(data) {
-  return axios.post('/api/logout', data);
+function logOutAPI() {
+  return axios.post('/api/logout');
 }
 
 function* logOut() {
-  yield put({
-    type: LOG_OUT_REQUEST,
-  });
   try {
-    // effect 앞에 yield가 붙음
-    const result = yield call(logOutAPI);
-    // put = dispatch
+    yield call(logOutAPI);
     yield put({
       type: LOG_OUT_SUCCESS,
-      data: result.data,
     });
+    // effect 앞에 yield가 붙음
+    // put = dispatch
   } catch (err) {
     yield put({
       type: LOG_OUT_FAILURE,
@@ -62,15 +58,14 @@ function* logOut() {
   }
 }
 
-function signUpAPI() {
+function signUpAPI(data) {
   return axios.post('/user', data);
 }
 
-function* signUp() {
+function* signUp(action) {
   try {
-    const result = yield call(signUpAPI);
+    const result = yield call(signUpAPI, action.data);
     console.log(result);
-    yield delay(1000);
     yield put({
       type: SIGN_UP_SUCCESS,
     });
@@ -88,12 +83,11 @@ function followAPI() {
 
 function* follow(action) {
   try {
-    // const result = yield call(follow);
-
+    const result = yield call(followAPI, action.data);
     yield delay(1000);
     yield put({
       type: FOLLOW_SUCCESS,
-      data: action.data,
+      data: result.data,
     });
   } catch (err) {
     yield put({
@@ -103,18 +97,16 @@ function* follow(action) {
   }
 }
 
-function unfollowAPI() {
-  return axios.post('/api/signUp');
+function unfollowAPI(data) {
+  return axios.post('/api/signUp', data);
 }
 
 function* unfollow(action) {
   try {
-    // const result = yield call(unfollow);
-
-    yield delay(1000);
+    const result = yield call(unfollowAPI, action.data);
     yield put({
       type: UNFOLLOW_SUCCESS,
-      data: action.data,
+      data: result.data,
     });
   } catch (err) {
     yield put({
