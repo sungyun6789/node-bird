@@ -48,7 +48,7 @@ const PostCard = ({ post }) => {
             key="more"
             content={
               <Button.Group>
-                {id && post.User.id === id ? (
+                {id && post.UserId === id ? (
                   <>
                     <Button>수정</Button>
                     <Button type="danger" onClick={onRemovePost} loading={removePostLoading}>
@@ -67,7 +67,7 @@ const PostCard = ({ post }) => {
         extra={id && <FollowButton post={post} />}
       >
         <Card.Meta
-          avatar={<Avatar>{post.User.nickname[0]}</Avatar>}
+          avatar={<Avatar>{post.User?.nickname[0]}</Avatar>}
           title={post.User.nickname}
           description={<PostCardContent postData={post.content} />}
         />

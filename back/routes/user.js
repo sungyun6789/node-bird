@@ -7,6 +7,42 @@ const { isLoggedIn, isNotLoggedIn } = require('./middlewares');
 
 const router = express.Router();
 
+router.get('/', async (req, res, next) => {
+  // GET /user
+  try {
+    if (req.user) {
+      const fullUserWithoutPassword = await User.findOne({
+        where: { id: req.user.id },
+        attributes: {
+          exclude: ['password'],
+        },
+        include: [
+          {
+            model: Post,
+            attributes: ['id'],
+          },
+          {
+            model: User,
+            as: 'Followings',
+            attributes: ['id'],
+          },
+          {
+            model: User,
+            as: 'Followers',
+            attributes: ['id'],
+          },
+        ],
+      });
+      res.status(200).json(fullUserWithoutPassword);
+    } else {
+      res.status(200).json(null);
+    }
+  } catch (error) {
+    console.error(error);
+    next(error);
+  }
+});
+
 router.post('/login', isNotLoggedIn, (req, res, next) => {
   passport.authenticate('local', (error, user, info) => {
     if (error) {
@@ -48,7 +84,7 @@ router.post('/login', isNotLoggedIn, (req, res, next) => {
   })(req, res, next);
 });
 
-router.post('/', isLoggedIn, async (req, res, next) => {
+router.post('/', isNotLoggedIn, async (req, res, next) => {
   try {
     const exUser = await User.findOne({
       where: {
@@ -66,7 +102,7 @@ router.post('/', isLoggedIn, async (req, res, next) => {
     });
     res.status(201).send('ok');
   } catch (error) {
-    console.log(error);
+    console.error(error);
     next(error); // status 500
   }
 });
