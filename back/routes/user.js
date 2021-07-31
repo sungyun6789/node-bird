@@ -3,7 +3,6 @@ const bcrypt = require('bcrypt');
 const passport = require('passport');
 
 const { User, Post } = require('../models');
-const db = require('../models');
 
 const router = express.Router();
 
@@ -22,21 +21,24 @@ router.post('/login', (req, res, next) => {
         return next(loginErr);
       }
       const fullUserWithoutPassword = await User.findOne({
-        where: { id: User.id },
+        where: { id: user.id },
         attributes: {
           exclude: ['password'],
         },
         include: [
           {
             model: Post,
+            attributes: ['id'],
           },
           {
             model: User,
             as: 'Followings',
+            attributes: ['id'],
           },
           {
             model: User,
             as: 'Followers',
+            attributes: ['id'],
           },
         ],
       });
@@ -69,7 +71,7 @@ router.post('/', async (req, res, next) => {
 });
 
 // 로그아웃은 쿠키와 세션을 지우면 끝나는 작업, 로그인에 비해 상당히 간단한 편
-router.post('/user/logout', (req, res) => {
+router.post('/logout', (req, res) => {
   req.logout();
   req.session.destroy();
   res.send('ok');
