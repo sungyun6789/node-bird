@@ -85,6 +85,7 @@ router.post('/login', isNotLoggedIn, (req, res, next) => {
 });
 
 router.post('/', isNotLoggedIn, async (req, res, next) => {
+  // POST /user/
   try {
     const exUser = await User.findOne({
       where: {
@@ -92,7 +93,7 @@ router.post('/', isNotLoggedIn, async (req, res, next) => {
       },
     });
     if (exUser) {
-      return res.status(403).send('이미 사용중인 이메일입니다.');
+      return res.status(403).send('이미 사용 중인 아이디입니다.');
     }
     const hashedPassword = await bcrypt.hash(req.body.password, 12);
     await User.create({

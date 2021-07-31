@@ -1,4 +1,4 @@
-import { call, all, fork, put, delay, takeLatest, throttle } from 'redux-saga/effects';
+import { call, all, fork, put, takeLatest, throttle } from 'redux-saga/effects';
 import axios from 'axios';
 import {
   LOAD_POSTS_REQUEST,
@@ -13,31 +13,29 @@ import {
   REMOVE_POST_REQUEST,
   REMOVE_POST_SUCCESS,
   REMOVE_POST_FAILURE,
-  generateDummyPost,
 } from '../reducers/post';
 import { ADD_POST_TO_ME, REMOVE_POST_OF_ME } from '../reducers/user';
-import shortid from 'shortid';
 
-function loadPostsAPI(data) {
-  return axios.get('/api/posts', data);
+function loadPostsAPI(lastId) {
+  return axios.get(`/posts?lastId=${lastId || 0}`);
 }
 
 function* loadPosts(action) {
   try {
-    // const result = yield call(loadPostsAPI, action.data);
-    yield delay(1000);
+    const result = yield call(loadPostsAPI, action.lastId);
     yield put({
       type: LOAD_POSTS_SUCCESS,
-      data: generateDummyPost(10),
+      data: result.data,
     });
-  } catch (err) {
-    console.error(err);
+  } catch (error) {
+    console.error(error);
     yield put({
       type: LOAD_POSTS_FAILURE,
-      data: err.response.data,
+      error: error.response.data,
     });
   }
 }
+
 function addPostAPI(data) {
   return axios.post('/post', { content: data });
 }
@@ -54,10 +52,10 @@ function* addPost(action) {
       type: ADD_POST_TO_ME,
       data: result.data.id,
     });
-  } catch (err) {
+  } catch (error) {
     yield put({
       type: ADD_POST_FAILURE,
-      data: err.response.data,
+      error: error.response.data,
     });
   }
 }
@@ -69,7 +67,6 @@ function removePostAPI(data) {
 function* removePost(action) {
   try {
     // const result = yield call(addPostAPI);
-    yield delay(1000);
     yield put({
       type: REMOVE_POST_SUCCESS,
       data: action.data,
@@ -78,11 +75,11 @@ function* removePost(action) {
       type: REMOVE_POST_OF_ME,
       data: action.data,
     });
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    console.log(error);
     yield put({
       type: REMOVE_POST_FAILURE,
-      data: err.response.data,
+      error: error.response.data,
     });
   }
 }
@@ -98,10 +95,11 @@ function* addComment(action) {
       type: ADD_COMMENT_SUCCESS,
       data: result.data,
     });
-  } catch (err) {
+  } catch (error) {
+    console.log(error);
     yield put({
       type: ADD_COMMENT_FAILURE,
-      data: err.response.data,
+      error: error.response.data,
     });
   }
 }

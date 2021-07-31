@@ -2,13 +2,18 @@ const express = require('express');
 const cors = require('cors');
 const session = require('express-session');
 const cookieParser = require('cookie-parser');
+
 const postRouter = require('./routes/post');
+const postsRouter = require('./routes/posts');
+
 const dotenv = require('dotenv');
 const userRouter = require('./routes/user');
 
 const db = require('./models');
 const passport = require('passport');
 const passportConfig = require('./passport');
+
+const morgan = require('morgan');
 
 dotenv.config();
 
@@ -19,6 +24,7 @@ db.sequelize
   .catch(console.error);
 passportConfig();
 
+app.use(morgan('dev'));
 app.use(
   cors({
     // origin을 *로 모든것을 허용할 경우 보안 때문에 에러가 발생할 수 있음
@@ -47,6 +53,7 @@ app.get('/', (req, res) => {
   res.send('hello api');
 });
 
+app.use('/posts', postsRouter);
 app.get('/posts', (req, res) => {
   res.json([
     { id: 1, content: 'hello1' },
