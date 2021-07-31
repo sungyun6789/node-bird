@@ -21,13 +21,14 @@ passportConfig();
 
 app.use(
   cors({
+    // origin을 *로 모든것을 허용할 경우 보안 때문에 에러가 발생할 수 있음
     origin: 'http://localhost:3060',
     credentials: true,
   }),
 );
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(cookieParser());
+app.use(cookieParser(process.env.COOKIE_SECRET));
 app.use(
   session({
     saveUninitialized: false,
