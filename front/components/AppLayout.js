@@ -34,20 +34,20 @@ const AppLayout = ({ children }) => {
     <div>
       <Global />
       <Menu mode="horizontal">
-        <Menu.Item key={shortId.generate()}>
+        <Menu.Item>
           <Link href="/">
             <a>노드버드</a>
           </Link>
         </Menu.Item>
-        <Menu.Item key={shortId.generate()}>
+        <Menu.Item>
           <Link href="/profile">
             <a>프로필</a>
           </Link>
         </Menu.Item>
-        <Menu.Item key={shortId.generate()}>
+        <Menu.Item>
           <SearchInput enterButton />
         </Menu.Item>
-        <Menu.Item key={shortId.generate()}>
+        <Menu.Item>
           <Link href="/signup">
             <a>회원가입</a>
           </Link>
