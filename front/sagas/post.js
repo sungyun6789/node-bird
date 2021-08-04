@@ -106,7 +106,7 @@ function* loadPosts(action) {
 }
 
 function addPostAPI(data) {
-  return axios.post('/post', { content: data });
+  return axios.post('/post', data);
 }
 
 function* addPost(action) {
@@ -130,7 +130,7 @@ function* addPost(action) {
 }
 
 function removePostAPI(data) {
-  return axios.post(`/post/${data}`);
+  return axios.delete(`/post/${data}`);
 }
 
 function* removePost(action) {
@@ -144,11 +144,11 @@ function* removePost(action) {
       type: REMOVE_POST_OF_ME,
       data: action.data,
     });
-  } catch (error) {
-    console.log(error);
+  } catch (err) {
+    console.error(err);
     yield put({
       type: REMOVE_POST_FAILURE,
-      error: error.response.data,
+      error: err.response.data,
     });
   }
 }
