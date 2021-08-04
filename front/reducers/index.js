@@ -1,29 +1,19 @@
-import { HYDRATE } from "next-redux-wrapper";
-import user from "./user";
-import post from "./post";
-import { combineReducers } from "redux";
-
-const initialState = {
-  user: {},
-  post: {},
-};
+import { HYDRATE } from 'next-redux-wrapper';
+import user from './user';
+import post from './post';
+import { combineReducers } from 'redux';
 
 export const loginAction = (data) => {
   return {
-    type: "LOG_IN",
+    type: 'LOG_IN',
     data,
   };
 };
 
 export const logoutAction = () => {
   return {
-    type: "LOG_OUT",
+    type: 'LOG_OUT',
   };
-};
-
-const changeNickname = {
-  type: "CHANGE_NICKNAME",
-  data: "change",
 };
 
 // reducer = (이전상태, 액션) => 다음상태

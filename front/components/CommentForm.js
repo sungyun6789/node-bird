@@ -16,10 +16,9 @@ const CommentForm = ({ post }) => {
     if (addCommentDone) {
       setCommentText('');
     }
-  }, []);
+  }, [addCommentDone]);
 
   const onSubmitComment = useCallback(() => {
-    console.log(post.id);
     dispatch({
       type: ADD_COMMENT_REQUEST,
       data: {

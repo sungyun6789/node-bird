@@ -20,3 +20,4 @@ NodeBird.propTypes = {
 };
 
 export default wrapper.withRedux(NodeBird);
+
