@@ -111,7 +111,6 @@ function addPostAPI(data) {
 
 function* addPost(action) {
   try {
-    // effect 앞에 yield가 붙음
     const result = yield call(addPostAPI, action.data);
     yield put({
       type: ADD_POST_SUCCESS,
@@ -121,14 +120,14 @@ function* addPost(action) {
       type: ADD_POST_TO_ME,
       data: result.data.id,
     });
-  } catch (error) {
+  } catch (err) {
+    console.error(err);
     yield put({
       type: ADD_POST_FAILURE,
-      error: error.response.data,
+      error: err.response.data,
     });
   }
 }
-
 function removePostAPI(data) {
   return axios.delete(`/post/${data}`);
 }

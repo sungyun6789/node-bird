@@ -3,11 +3,6 @@ import user from './user';
 import post from './post';
 import { combineReducers } from 'redux';
 
-const initialState = {
-  user: {},
-  post: {},
-};
-
 export const loginAction = (data) => {
   return {
     type: 'LOG_IN',
@@ -19,11 +14,6 @@ export const logoutAction = () => {
   return {
     type: 'LOG_OUT',
   };
-};
-
-const changei = {
-  type: 'CHANGE_NICKNAME',
-  data: 'change',
 };
 
 // reducer = (이전상태, 액션) => 다음상태
