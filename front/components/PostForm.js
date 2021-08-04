@@ -7,8 +7,6 @@ import { addPost, UPLOAD_IMAGES_REQUEST, REMOVE_IMAGE, ADD_POST_REQUEST } from '
 const PostForm = () => {
   const { imagePaths, addPostDone } = useSelector((state) => state.post);
   const dispatch = useDispatch();
-  const imageInput = useRef();
-
   const [text, onChangeText, setText] = useInput('');
 
   useEffect(() => {
@@ -32,6 +30,7 @@ const PostForm = () => {
     });
   }, [text, imagePaths]);
 
+  const imageInput = useRef();
   const onClickImageUpload = useCallback(() => {
     imageInput.current.click();
   }, [imageInput.current]);
@@ -70,7 +69,7 @@ const PostForm = () => {
       </div>
       <div>
         {imagePaths.map((v, i) => (
-          <div key={i} style={{ display: 'inline-block' }}>
+          <div key={v} style={{ display: 'inline-block' }}>
             <img src={`http://localhost:3065/${v}`} style={{ width: '200px' }} alt={v} />
             <div>
               <Button onClick={onRemoveImage(i)}>제거</Button>

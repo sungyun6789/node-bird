@@ -1,11 +1,10 @@
 const express = require('express');
 const { Op } = require('sequelize');
 
-const { Post, User, Image, Comment } = require('../models');
+const { Post, Image, User, Comment } = require('../models');
 
 const router = express.Router();
 
-// GET/POSTS
 router.get('/', async (req, res, next) => {
   // GET /posts
   try {
