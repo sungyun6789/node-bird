@@ -5,7 +5,7 @@ import FollowList from '../components/FollowList';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import Router from 'next/router';
-import { LOAD_FOLLOWERS_REQUEST, LOAD_FOLLOWINGS_REQUEST, LOAD_MYINFO_REQUEST } from '../reducers/user';
+import { LOAD_FOLLOWERS_REQUEST, LOAD_FOLLOWINGS_REQUEST, LOAD_MY_INFO_REQUEST } from '../reducers/user';
 
 import { END } from 'redux-saga';
 import wrapper from '../store/configureStore';
@@ -55,7 +55,7 @@ export const getServerSideProps = wrapper.getServerSideProps(async (context) => 
     axios.defaults.headers.Cookie = cookie;
   }
   context.store.dispatch({
-    type: LOAD_MYINFO_REQUEST,
+    type: LOAD_MY_INFO_REQUEST,
   });
   context.store.dispatch(END);
   await context.store.sagaTask.toPromise();

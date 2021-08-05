@@ -5,7 +5,7 @@ import useInput from '../hooks/useInput';
 import styled from 'styled-components';
 import { Form, Input, Checkbox, Button } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
-import { LOAD_MYINFO_REQUEST, SIGN_UP_REQUEST } from '../reducers/user';
+import { LOAD_MY_INFO_REQUEST, SIGN_UP_REQUEST } from '../reducers/user';
 import Router from 'next/router';
 import { END } from 'redux-saga';
 import wrapper from '../store/configureStore';
@@ -126,7 +126,7 @@ export const getServerSideProps = wrapper.getServerSideProps(async (context) => 
     axios.defaults.headers.Cookie = cookie;
   }
   context.store.dispatch({
-    type: LOAD_MYINFO_REQUEST,
+    type: LOAD_MY_INFO_REQUEST,
   });
   context.store.dispatch(END);
   await context.store.sagaTask.toPromise();

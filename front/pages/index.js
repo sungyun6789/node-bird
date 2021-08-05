@@ -4,7 +4,7 @@ import AppLayout from '../components/AppLayout';
 import PostForm from '../components/PostForm';
 import PostCard from '../components/PostCard';
 import { LOAD_POSTS_REQUEST } from '../reducers/post';
-import { LOAD_MYINFO_REQUEST } from '../reducers/user';
+import { LOAD_MY_INFO_REQUEST } from '../reducers/user';
 
 import { END } from 'redux-saga';
 import wrapper from '../store/configureStore';
@@ -59,7 +59,7 @@ export const getServerSideProps = wrapper.getServerSideProps(async (context) => 
     axios.defaults.headers.Cookie = cookie;
   }
   context.store.dispatch({
-    type: LOAD_MYINFO_REQUEST,
+    type: LOAD_MY_INFO_REQUEST,
   });
   context.store.dispatch({
     type: LOAD_POSTS_REQUEST,

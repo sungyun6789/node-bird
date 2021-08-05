@@ -38,9 +38,9 @@ export const initialState = {
   userInfo: null,
 };
 
-export const LOAD_MYINFO_REQUEST = 'LOAD_MYINFO_REQUEST';
-export const LOAD_MYINFO_SUCCESS = 'LOAD_MYINFO_SUCCESS';
-export const LOAD_MYINFO_FAILURE = 'LOAD_MYINFO_FAILURE';
+export const LOAD_MY_INFO_REQUEST = 'LOAD_MY_INFO_REQUEST';
+export const LOAD_MY_INFO_SUCCESS = 'LOAD_MY_INFO_SUCCESS';
+export const LOAD_MY_INFO_FAILURE = 'LOAD_MY_INFO_FAILURE';
 
 export const LOAD_USER_REQUEST = 'LOAD_USER_REQUEST';
 export const LOAD_USER_SUCCESS = 'LOAD_USER_SUCCESS';
@@ -111,24 +111,19 @@ const reducer = (state = initialState, action) =>
         draft.removeFollowerLoading = false;
         draft.removeFollowerError = action.error;
         break;
-      case LOAD_MYINFO_REQUEST:
+      case LOAD_MY_INFO_REQUEST:
         draft.loadMyInfoLoading = true;
         draft.loadMyInfoError = null;
         draft.loadMyInfoDone = false;
         break;
-      case LOAD_MYINFO_SUCCESS:
+      case LOAD_MY_INFO_SUCCESS:
         draft.loadMyInfoLoading = false;
-        draft.userInfo = action.data;
+        draft.me = action.data;
         draft.loadMyInfoDone = true;
         break;
-      case LOAD_FOLLOWINGS_FAILURE:
+      case LOAD_MY_INFO_FAILURE:
         draft.loadMyInfoLoading = false;
         draft.loadMyInfoError = action.error;
-        break;
-      case LOAD_MYINFO_REQUEST:
-        draft.loadFollowingsLoading = true;
-        draft.loadFollowingsError = null;
-        draft.loadFollowingsDone = false;
         break;
       case LOAD_FOLLOWINGS_SUCCESS:
         draft.loadFollowingsLoading = false;

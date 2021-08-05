@@ -31,9 +31,9 @@ import {
   REMOVE_FOLLOWER_REQUEST,
   REMOVE_FOLLOWER_SUCCESS,
   REMOVE_FOLLOWER_FAILURE,
-  LOAD_MYINFO_REQUEST,
-  LOAD_MYINFO_SUCCESS,
-  LOAD_MYINFO_FAILURE,
+  LOAD_MY_INFO_REQUEST,
+  LOAD_MY_INFO_SUCCESS,
+  LOAD_MY_INFO_FAILURE,
 } from '../reducers/user';
 
 function removeFollowerAPI(data) {
@@ -136,21 +136,21 @@ function* loadUser(action) {
   }
 }
 
-function loadMyInfoAPI(data) {
-  return axios.get(`/user/${data}`);
+function loadMyInfoAPI() {
+  return axios.get('/user');
 }
 
-function* loadMyInfo(action) {
+function* loadMyInfo() {
   try {
-    const result = yield call(loadMyInfoAPI, action.data);
+    const result = yield call(loadMyInfoAPI);
     yield put({
-      type: LOAD_MYINFO_SUCCESS,
+      type: LOAD_MY_INFO_SUCCESS,
       data: result.data,
     });
   } catch (err) {
     console.error(err);
     yield put({
-      type: LOAD_MYINFO_FAILURE,
+      type: LOAD_MY_INFO_FAILURE,
       error: err.response.data,
     });
   }
@@ -275,7 +275,7 @@ function* watchLoadUser() {
 }
 
 function* watchLoadMyInfo() {
-  yield takeLatest(LOAD_MYINFO_REQUEST, loadMyInfo);
+  yield takeLatest(LOAD_MY_INFO_REQUEST, loadMyInfo);
 }
 
 function* watchFollow() {
