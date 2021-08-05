@@ -2,6 +2,7 @@ import produce from 'immer';
 
 export const initialState = {
   mainPosts: [],
+  singlePost: null,
   imagePaths: [],
   hasMorePosts: true,
   likePostLoading: false,
@@ -22,6 +23,9 @@ export const initialState = {
   addCommentLoading: false,
   addCommentDone: false,
   addCommentError: null,
+  loadPostLoading: false,
+  loadPostDone: false,
+  loadPostError: null,
   uploadImagesLoading: false,
   uploadImagesDone: false,
   uploadImagesError: null,
@@ -41,6 +45,10 @@ export const LIKE_POST_FAILURE = 'LIKE_POST_FAILURE';
 export const UNLIKE_POST_REQUEST = 'UNLIKE_POST_REQUEST';
 export const UNLIKE_POST_SUCCESS = 'UNLIKE_POST_SUCCESS';
 export const UNLIKE_POST_FAILURE = 'UNLIKE_POST_FAILURE';
+
+export const LOAD_POST_REQUEST = 'LOAD_POST_REQUEST';
+export const LOAD_POST_SUCCESS = 'LOAD_POST_SUCCESS';
+export const LOAD_POST_FAILURE = 'LOAD_POST_FAILURE';
 
 export const LOAD_POSTS_REQUEST = 'LOAD_POSTS_REQUEST';
 export const LOAD_POSTS_SUCCESS = 'LOAD_POSTS_SUCCESS';
@@ -151,9 +159,26 @@ const reducer = (state = initialState, action) => {
         break;
       }
 
-      case UNLIKE_POST_FAILURE:
-        draft.unlikePostLoading = false;
-        draft.unlikePostError = action.error;
+      case LOAD_POST_REQUEST:
+        draft.loadPostLoading = true;
+        draft.loadPostDone = false;
+        draft.loadPostError = null;
+        break;
+
+      case LOAD_POST_SUCCESS:
+        draft.loadPostLoading = false;
+        draft.loadPostDone = true;
+        draft.singlePost = action.data;
+        break;
+
+      case LOAD_POST_FAILURE:
+        draft.loadPostLoading = false;
+        draft.loadPostError = action.error;
+        break;
+
+      case LOAD_POST_FAILURE:
+        draft.loadPostLoading = false;
+        draft.loadPostError = action.error;
         break;
 
       case LOAD_POSTS_REQUEST:
