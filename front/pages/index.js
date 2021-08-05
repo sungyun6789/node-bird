@@ -48,6 +48,7 @@ const Home = () => {
   );
 };
 
+// front => back, browser가 중간에 없이 통신
 export const getServerSideProps = wrapper.getServerSideProps(async (context) => {
   context.store.dispatch({
     type: LOAD_USER_REQUEST,

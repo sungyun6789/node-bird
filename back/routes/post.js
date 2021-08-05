@@ -11,7 +11,6 @@ const router = express.Router();
 try {
   fs.accessSync('uploads');
 } catch (error) {
-  console.log('uploads 폴더가 없으므로 생성합니다.');
   fs.mkdirSync('uploads');
 }
 
@@ -93,7 +92,6 @@ router.post('/', isLoggedIn, upload.none(), async (req, res, next) => {
 });
 
 router.post('/images', isLoggedIn, upload.array('image'), async (req, res, next) => {
-  console.log(req.files);
   res.json(req.files.map((v) => v.filename));
 });
 
