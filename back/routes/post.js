@@ -3,7 +3,7 @@ const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
 
-const { Post, Comment, Image, User, Hashtag } = require('../models');
+const { Post, Image, Comment, User, Hashtag } = require('../models');
 const { isLoggedIn } = require('./middlewares');
 
 const router = express.Router();
@@ -21,17 +21,16 @@ const upload = multer({
       done(null, 'uploads');
     },
     filename(req, file, done) {
-      const ext = path.extname(file.originalname);
+      const ext = path.extname(file.originalname); // 확장자 추출(.png)
       const basename = path.basename(file.originalname, ext);
       done(null, basename + '_' + new Date().getTime() + ext);
     },
   }),
-  limits: { fileSize: 20 * 1024 * 1024 },
+  limits: { fileSize: 20 * 1024 * 1024 }, // 20MB
 });
 
 // POST /post
 router.post('/', isLoggedIn, upload.none(), async (req, res, next) => {
-  // POST /post
   try {
     const hashtags = req.body.content.match(/#[^\s#]+/g);
     const post = await Post.create({
@@ -92,12 +91,50 @@ router.post('/', isLoggedIn, upload.none(), async (req, res, next) => {
   }
 });
 
-router.post('/images', isLoggedIn, upload.array('image'), async (req, res, next) => {
+router.post('/images', isLoggedIn, upload.array('image'), (req, res, next) => {
+  // POST /post/images
   console.log(req.files);
   res.json(req.files.map((v) => v.filename));
 });
 
+router.get('/:postId', async (req, res, next) => {
+  try {
+    const post = await Post.findOne({
+      where: { id: req.params.postId },
+      include: [
+        {
+          model: User,
+          attributes: ['id', 'nickname'],
+        },
+        {
+          model: Image,
+        },
+        {
+          model: Comment,
+          include: [
+            {
+              model: User,
+              attributes: ['id', 'nickname'],
+              order: [['createdAt', 'DESC']],
+            },
+          ],
+        },
+        {
+          model: User, // 좋아요 누른 사람
+          as: 'Likers',
+          attributes: ['id'],
+        },
+      ],
+    });
+    res.status(200).json(post);
+  } catch (error) {
+    console.error(error);
+    next(error);
+  }
+});
+
 router.post('/:postId/retweet', isLoggedIn, async (req, res, next) => {
+  // POST /post/1/retweet
   try {
     const post = await Post.findOne({
       where: { id: req.params.postId },
@@ -148,6 +185,11 @@ router.post('/:postId/retweet', isLoggedIn, async (req, res, next) => {
         {
           model: User,
           attributes: ['id', 'nickname'],
+        },
+        {
+          model: User, // 좋아요 누른 사람
+          as: 'Likers',
+          attributes: ['id'],
         },
         {
           model: Image,
@@ -227,8 +269,8 @@ router.delete('/:postId/like', isLoggedIn, async (req, res, next) => {
   }
 });
 
-// DELETE /post
 router.delete('/:postId', isLoggedIn, async (req, res, next) => {
+  // DELETE /post/10
   try {
     await Post.destroy({
       where: {
